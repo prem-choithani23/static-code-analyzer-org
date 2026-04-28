@@ -7,6 +7,7 @@ A professional-grade **static code analysis tool** for Spring Boot projects, det
 This tool performs **deep security scanning** of entire Spring Boot projects, identifying:
 
 ### Core Security Vulnerabilities
+
 - **XSS (Cross-Site Scripting)** — Unsafe HTML output in Java and templates
 - **SQL Injection** — String concatenation in database queries
 
@@ -81,6 +82,7 @@ com.xssframework
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Java 17+
 - Maven 3.8+
 
@@ -127,18 +129,21 @@ Base scores are calibrated to OWASP standards, with modifiers for context (e.g.,
 ## 🔧 Technical Details
 
 ### AST-Based Analysis (Not String Matching)
+
 - Uses **JavaParser** for Java source AST parsing
 - Pattern-based detection with semantic understanding
 - Regex for config files (properties, YAML)
 - DOM-based detection for templates (jsoup)
 
 ### Cross-File Taint Tracking
+
 - **TaintGraph** maintains stateful taint registry across files
 - Tracks entry points (`@RequestParam`, `@RequestBody`) through method calls
 - Identifies sinks (response output, DB persistence) without sanitization
 - Supports multi-file scanning with no false negatives
 
 ### No External Service Calls
+
 - Fully **offline** analysis — no cloud/API dependencies
 - **Deterministic results** — same input = same output
 - **Fast** — typical project scans in seconds
@@ -156,11 +161,13 @@ Skips: `target/`, `.git/`, `.idea/`, `build/`, `node_modules/`, etc.
 ## 🎨 Report Features
 
 ### Summary Dashboard
+
 - Total findings count
 - Breakdown by threat level (CRITICAL/HIGH/MEDIUM/LOW)
 - Scan timestamp
 
 ### Findings Table
+
 - **Score**: Numeric threat score (1–100)
 - **Threat Level**: Color-coded badge
 - **Type**: Vulnerability classification
@@ -168,12 +175,14 @@ Skips: `target/`, `.git/`, `.idea/`, `build/`, `node_modules/`, etc.
 - **Description**: Quick summary
 
 ### Expandable Details
+
 - Full file path
 - Complete description
 - Code snippet
 - Fix suggestion (static now, AI-powered later)
 
 ### Styling
+
 - Modern gradient header
 - Color-coded by threat level
 - Responsive grid layout
@@ -185,6 +194,7 @@ Skips: `target/`, `.git/`, `.idea/`, `build/`, `node_modules/`, etc.
 ### Adding a New Detector
 
 1. **Implement `Detector` interface**:
+
    ```java
    public class MyDetector implements Detector {
        public List<Finding> detect(ParsedFile parsedFile) { ... }
@@ -200,6 +210,7 @@ Skips: `target/`, `.git/`, `.idea/`, `build/`, `node_modules/`, etc.
 ### AI-Powered Suggestions (Future)
 
 Replace `SuggestionProvider` internals:
+
 ```java
 // Now: static Map lookup
 // Later: public static String getSuggestion(VulnerabilityType type, String codeSnippet) {
@@ -221,6 +232,7 @@ Educational/Commercial use — refer to project documentation.
 ## 🤝 Contributing
 
 To extend the tool:
+
 1. Add detectors to `detector/`
 2. Update `ScanEngine` to register
 3. Test with sample Spring projects
