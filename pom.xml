@@ -78,7 +78,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.xssframework.Main</mainClass>
+                            <mainClass>com.xssframework.Launcher</mainClass>
                         </manifest>
                     </archive>
                     <finalName>spring-security-analyzer</finalName>
