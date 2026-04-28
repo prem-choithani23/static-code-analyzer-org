@@ -13,12 +13,12 @@ import java.util.List;
  * Analyzes Spring configuration files for security issues.
  *
  * Responsibilities:
- *   1. Accept ParsedFile for application.properties, application.yml files
- *   2. Delegate to configuration detectors (SpringConfigDetector)
- *   3. Flag weak JWT secrets, disabled SSL, Actuator over-exposure, etc.
+ * 1. Accept ParsedFile for application.properties, application.yml files
+ * 2. Delegate to configuration detectors (SpringConfigDetector)
+ * 3. Flag weak JWT secrets, disabled SSL, Actuator over-exposure, etc.
  *
  * Detectors registered:
- *   - SpringConfigDetector (application.properties / application.yml)
+ * - SpringConfigDetector (application.properties / application.yml)
  */
 public final class ConfigFileAnalyzer implements Analyzer {
 
@@ -46,10 +46,10 @@ public final class ConfigFileAnalyzer implements Analyzer {
             try {
                 List<Finding> findings = detector.detect(parsedFile);
                 allFindings.addAll(findings);
-                logger.debug("Detector {} found {} findings in {}", 
+                logger.debug("Detector {} found {} findings in {}",
                         detector.getClass().getSimpleName(), findings.size(), parsedFile.getPath());
             } catch (Exception e) {
-                logger.warn("Detector {} failed on {}: {}", 
+                logger.warn("Detector {} failed on {}: {}",
                         detector.getClass().getSimpleName(), parsedFile.getPath(), e.getMessage());
             }
         }

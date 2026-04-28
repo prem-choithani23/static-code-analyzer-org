@@ -14,15 +14,16 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 /**
- * Detects insecure Spring configuration in application.properties and application.yml files.
+ * Detects insecure Spring configuration in application.properties and
+ * application.yml files.
  *
  * Detection patterns:
- *   1. Weak JWT secrets (< 32 characters)
- *   2. spring.security.enabled=false in any profile
- *   3. management.endpoints.web.exposure.include=* (Actuator over-exposure)
- *   4. server.ssl.enabled=false in non-dev profiles
- *   5. Hardcoded database passwords
- *   6. Other weak security settings
+ * 1. Weak JWT secrets (< 32 characters)
+ * 2. spring.security.enabled=false in any profile
+ * 3. management.endpoints.web.exposure.include=* (Actuator over-exposure)
+ * 4. server.ssl.enabled=false in non-dev profiles
+ * 5. Hardcoded database passwords
+ * 6. Other weak security settings
  */
 public final class SpringConfigDetector implements Detector {
 
@@ -31,28 +32,23 @@ public final class SpringConfigDetector implements Detector {
     // Regex patterns for detecting weak secrets
     private static final Pattern JWT_SECRET_PATTERN = Pattern.compile(
             "^\\s*(?:jwt\\.secret|app\\.jwt\\.secret|spring\\.security\\.jwt\\.secret)\\s*=\\s*(.*)$",
-            Pattern.CASE_INSENSITIVE
-    );
+            Pattern.CASE_INSENSITIVE);
 
     private static final Pattern WEAK_PASSWORD_PATTERN = Pattern.compile(
             "^\\s*(?:spring\\.datasource\\.password|db\\.password|app\\.db\\.password)\\s*=\\s*(.*)$",
-            Pattern.CASE_INSENSITIVE
-    );
+            Pattern.CASE_INSENSITIVE);
 
     private static final Pattern SECURITY_DISABLED_PATTERN = Pattern.compile(
             "^\\s*spring\\.security\\.enabled\\s*=\\s*false\\s*$",
-            Pattern.CASE_INSENSITIVE
-    );
+            Pattern.CASE_INSENSITIVE);
 
     private static final Pattern ACTUATOR_EXPOSED_PATTERN = Pattern.compile(
             "^\\s*management\\.endpoints\\.web\\.exposure\\.include\\s*=\\s*\\*\\s*$",
-            Pattern.CASE_INSENSITIVE
-    );
+            Pattern.CASE_INSENSITIVE);
 
     private static final Pattern SSL_DISABLED_PATTERN = Pattern.compile(
             "^\\s*server\\.ssl\\.enabled\\s*=\\s*false\\s*$",
-            Pattern.CASE_INSENSITIVE
-    );
+            Pattern.CASE_INSENSITIVE);
 
     @Override
     public List<Finding> detect(ParsedFile parsedFile) {
@@ -84,7 +80,8 @@ public final class SpringConfigDetector implements Detector {
             int lineNumber = lineNum + 1;
 
             // Skip comments and empty lines
-            if (line.trim().isEmpty() || line.trim().startsWith("#")) continue;
+            if (line.trim().isEmpty() || line.trim().startsWith("#"))
+                continue;
 
             // Check JWT secret weakness
             var jwtMatcher = JWT_SECRET_PATTERN.matcher(line);
@@ -94,8 +91,7 @@ public final class SpringConfigDetector implements Detector {
                     String desc = String.format(
                             "Weak JWT secret found: '%s' is only %d characters. " +
                                     "JWT secrets should be at least 256 bits (32 characters) of high entropy.",
-                            secretValue, secretValue.length()
-                    );
+                            secretValue, secretValue.length());
                     addFinding(parsedFile, lineNumber, desc, findings);
                 }
             }
@@ -151,8 +147,9 @@ public final class SpringConfigDetector implements Detector {
 
     @SuppressWarnings("unchecked")
     private void detectInYamlMap(Map<String, Object> map, ParsedFile parsedFile, int lineNum,
-                                 List<Finding> findings) {
-        if (map == null) return;
+            List<Finding> findings) {
+        if (map == null)
+            return;
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String key = entry.getKey().toLowerCase();
@@ -165,8 +162,7 @@ public final class SpringConfigDetector implements Detector {
                     String desc = String.format(
                             "Weak JWT secret in YAML: value is only %d characters. " +
                                     "JWT secrets should be at least 256 bits (32 characters).",
-                            secretValue.length()
-                    );
+                            secretValue.length());
                     addFinding(parsedFile, lineNum, desc, findings);
                 }
             }

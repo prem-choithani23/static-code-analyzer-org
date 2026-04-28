@@ -13,12 +13,12 @@ import java.util.List;
  * Analyzes HTML template files for template-layer XSS vulnerabilities.
  *
  * Responsibilities:
- *   1. Accept ParsedFile for .html (Thymeleaf) and .jsp template files
- *   2. Delegate to template detectors (TemplateXssDetector)
- *   3. Flag th:utext, inline ${} in script blocks, raw EL expressions
+ * 1. Accept ParsedFile for .html (Thymeleaf) and .jsp template files
+ * 2. Delegate to template detectors (TemplateXssDetector)
+ * 3. Flag th:utext, inline ${} in script blocks, raw EL expressions
  *
  * Detectors registered:
- *   - TemplateXssDetector (Thymeleaf .html and JSP .jsp files)
+ * - TemplateXssDetector (Thymeleaf .html and JSP .jsp files)
  */
 public final class TemplateAnalyzer implements Analyzer {
 
@@ -46,10 +46,10 @@ public final class TemplateAnalyzer implements Analyzer {
             try {
                 List<Finding> findings = detector.detect(parsedFile);
                 allFindings.addAll(findings);
-                logger.debug("Detector {} found {} findings in {}", 
+                logger.debug("Detector {} found {} findings in {}",
                         detector.getClass().getSimpleName(), findings.size(), parsedFile.getPath());
             } catch (Exception e) {
-                logger.warn("Detector {} failed on {}: {}", 
+                logger.warn("Detector {} failed on {}: {}",
                         detector.getClass().getSimpleName(), parsedFile.getPath(), e.getMessage());
             }
         }

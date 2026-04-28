@@ -13,15 +13,15 @@ import java.util.List;
  * Analyzes Java source files for vulnerabilities.
  *
  * Responsibilities:
- *   1. Accept a ParsedFile with a compiled AST (JavaParser CompilationUnit)
- *   2. Delegate to all registered Java detectors
- *   3. Aggregate findings from all detectors
+ * 1. Accept a ParsedFile with a compiled AST (JavaParser CompilationUnit)
+ * 2. Delegate to all registered Java detectors
+ * 3. Aggregate findings from all detectors
  *
  * Detectors registered:
- *   - XssDetector
- *   - SqlInjectionDetector
- *   - RestSanitizationDetector
- *   - TaintFlowDetector
+ * - XssDetector
+ * - SqlInjectionDetector
+ * - RestSanitizationDetector
+ * - TaintFlowDetector
  */
 public final class JavaSourceAnalyzer implements Analyzer {
 
@@ -48,10 +48,10 @@ public final class JavaSourceAnalyzer implements Analyzer {
             try {
                 List<Finding> findings = detector.detect(parsedFile);
                 allFindings.addAll(findings);
-                logger.debug("Detector {} found {} findings in {}", 
+                logger.debug("Detector {} found {} findings in {}",
                         detector.getClass().getSimpleName(), findings.size(), parsedFile.getPath());
             } catch (Exception e) {
-                logger.warn("Detector {} failed on {}: {}", 
+                logger.warn("Detector {} failed on {}: {}",
                         detector.getClass().getSimpleName(), parsedFile.getPath(), e.getMessage());
             }
         }

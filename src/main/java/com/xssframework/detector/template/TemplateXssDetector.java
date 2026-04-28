@@ -22,10 +22,11 @@ import java.util.regex.Pattern;
  * Detects template-layer XSS vulnerabilities in Thymeleaf and JSP files.
  *
  * Detection patterns:
- *   1. th:utext (unescaped Thymeleaf output) — flags as XSS sink
- *   2. Inline ${...} expressions in <script> blocks — bypasses Java-layer sanitization
- *   3. Raw EL expressions in JSP (<%=...%>, <c:out escapeXml="false">)
- *   4. Event handler attributes with ${...} expressions (onclick="${...}")
+ * 1. th:utext (unescaped Thymeleaf output) — flags as XSS sink
+ * 2. Inline ${...} expressions in <script> blocks — bypasses Java-layer
+ * sanitization
+ * 3. Raw EL expressions in JSP (<%=...%>, <c:out escapeXml="false">)
+ * 4. Event handler attributes with ${...} expressions (onclick="${...}")
  */
 public final class TemplateXssDetector implements Detector {
 
@@ -34,30 +35,24 @@ public final class TemplateXssDetector implements Detector {
     // Patterns to detect unsafe template expressions
     private static final Pattern THYMELEAF_UTEXT_PATTERN = Pattern.compile(
             "th:utext\\s*=\\s*[\"']([^\"']*)[\"']",
-            Pattern.CASE_INSENSITIVE
-    );
+            Pattern.CASE_INSENSITIVE);
 
     private static final Pattern EL_EXPRESSION_PATTERN = Pattern.compile(
-            "\\$\\{[^}]+\\}"
-    );
+            "\\$\\{[^}]+\\}");
 
     private static final Pattern JSP_EXPRESSION_PATTERN = Pattern.compile(
-            "<%\\s*=\\s*(.+?)\\s*%>"
-    );
+            "<%\\s*=\\s*(.+?)\\s*%>");
 
     private static final Pattern JSP_UNSAFE_OUT_PATTERN = Pattern.compile(
             "<c:out\\s+value\\s*=\\s*[\"']\\$\\{[^}]+\\}[\"']\\s+escapeXml\\s*=\\s*[\"']false[\"']",
-            Pattern.CASE_INSENSITIVE
-    );
+            Pattern.CASE_INSENSITIVE);
 
     private static final Set<String> SCRIPT_BLOCK_TAGS = Set.of(
-            "script", "style"
-    );
+            "script", "style");
 
     private static final Set<String> EVENT_HANDLERS = Set.of(
             "onclick", "onload", "onerror", "onchange", "onmouseover", "onmouseout",
-            "onkeydown", "onkeyup", "onsubmit", "onfocus", "onblur"
-    );
+            "onkeydown", "onkeyup", "onsubmit", "onfocus", "onblur");
 
     @Override
     public List<Finding> detect(ParsedFile parsedFile) {
@@ -94,8 +89,7 @@ public final class TemplateXssDetector implements Detector {
                     String desc = String.format(
                             "Thymeleaf th:utext outputs unescaped HTML: '%s'. " +
                                     "Use th:text instead to automatically escape user-controlled content.",
-                            expr
-                    );
+                            expr);
                     addFinding(parsedFile, lineNumber, line, desc, findings);
                 }
             }
@@ -171,7 +165,8 @@ public final class TemplateXssDetector implements Detector {
             String line = lines.get(i).toLowerCase();
             openCount += countOccurrences(line, "<script");
             closeCount += countOccurrences(line, "</script");
-            if (openCount > closeCount) return true;
+            if (openCount > closeCount)
+                return true;
         }
 
         openCount = 0;
@@ -180,7 +175,8 @@ public final class TemplateXssDetector implements Detector {
             String line = lines.get(i).toLowerCase();
             openCount += countOccurrences(line, "<style");
             closeCount += countOccurrences(line, "</style");
-            if (openCount > closeCount) return true;
+            if (openCount > closeCount)
+                return true;
         }
 
         return false;
@@ -207,7 +203,7 @@ public final class TemplateXssDetector implements Detector {
     }
 
     private void addFinding(ParsedFile parsedFile, int lineNum, String codeLine,
-                           String description, List<Finding> findings) {
+            String description, List<Finding> findings) {
         String snippet = codeLine.trim();
         int threatScore = ThreatScorer.score(VulnerabilityType.TEMPLATE_XSS, description);
 

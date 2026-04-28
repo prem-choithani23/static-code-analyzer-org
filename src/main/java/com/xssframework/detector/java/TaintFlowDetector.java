@@ -19,14 +19,17 @@ import java.util.*;
 /**
  * Detects taint flow vulnerabilities in Spring Boot applications.
  *
- * Tracks the flow of user-controlled data from entry points through the application:
- *   1. Entry points: @RequestParam, @RequestBody, @PathVariable parameters
- *   2. Flow tracking: through @Service methods into @Repository calls
- *   3. Exit points (sinks): return statements, response output, database persistence
+ * Tracks the flow of user-controlled data from entry points through the
+ * application:
+ * 1. Entry points: @RequestParam, @RequestBody, @PathVariable parameters
+ * 2. Flow tracking: through @Service methods into @Repository calls
+ * 3. Exit points (sinks): return statements, response output, database
+ * persistence
  *
  * Flags when tainted data reaches a sink without passing through a sanitizer.
  *
- * This detector requires stateful tracking across files, so it holds a reference
+ * This detector requires stateful tracking across files, so it holds a
+ * reference
  * to the shared TaintGraph.
  */
 public final class TaintFlowDetector implements Detector {
@@ -36,8 +39,7 @@ public final class TaintFlowDetector implements Detector {
 
     // Spring annotation names that mark taint entry points
     private static final Set<String> TAINT_ENTRY_ANNOTATIONS = Set.of(
-            "RequestParam", "RequestBody", "PathVariable", "ModelAttribute"
-    );
+            "RequestParam", "RequestBody", "PathVariable", "ModelAttribute");
 
     public TaintFlowDetector(TaintGraph taintGraph) {
         this.taintGraph = taintGraph;
@@ -46,8 +48,8 @@ public final class TaintFlowDetector implements Detector {
     @Override
     public List<Finding> detect(ParsedFile parsedFile) {
         List<Finding> findings = new ArrayList<>();
-        parsedFile.getCompilationUnit().ifPresent(cu ->
-                cu.accept(new TaintFlowVisitor(parsedFile, taintGraph, findings), null));
+        parsedFile.getCompilationUnit()
+                .ifPresent(cu -> cu.accept(new TaintFlowVisitor(parsedFile, taintGraph, findings), null));
         return findings;
     }
 
@@ -89,10 +91,9 @@ public final class TaintFlowDetector implements Detector {
                                 param.getNameAsString(),
                                 origin,
                                 className,
-                                method.getNameAsString()
-                        );
+                                method.getNameAsString());
                         graph.registerSymbol(symbol);
-                        logger.debug("Registered tainted parameter: {}#{}/{}", 
+                        logger.debug("Registered tainted parameter: {}#{}/{}",
                                 className, method.getNameAsString(), param.getNameAsString());
                     }
                 });
@@ -106,7 +107,7 @@ public final class TaintFlowDetector implements Detector {
             List<TaintedSymbol> symbolsInMethod = graph.getSymbolsInMethod(className, method.getNameAsString());
 
             if (symbolsInMethod.isEmpty()) {
-                return;  // No tainted data in this method
+                return; // No tainted data in this method
             }
 
             // Check if any tainted symbol is used without sanitization
@@ -125,8 +126,7 @@ public final class TaintFlowDetector implements Detector {
                             className,
                             method.getNameAsString(),
                             symbol.getVariableName(),
-                            symbol.getOrigin().name()
-                    );
+                            symbol.getOrigin().name());
 
                     findings.add(Finding.builder()
                             .filePath(file.getPath())
@@ -150,7 +150,8 @@ public final class TaintFlowDetector implements Detector {
         private boolean isTaintUsedInSink(String methodBody, String varName) {
             String lower = methodBody.toLowerCase();
 
-            // Sink patterns: response.write, println, repository.save, return statement with the variable
+            // Sink patterns: response.write, println, repository.save, return statement
+            // with the variable
             return (lower.contains("response.") && lower.contains(varName.toLowerCase())) ||
                     (lower.contains(".save(") && lower.contains(varName.toLowerCase())) ||
                     (lower.contains(".write") && lower.contains(varName.toLowerCase())) ||

@@ -23,19 +23,19 @@ import java.util.stream.Collectors;
  * Orchestrates the complete security scanning pipeline.
  *
  * Responsibilities:
- *   1. Walk the project file tree (via FileTreeWalker)
- *   2. Route each file to the appropriate analyzer based on file type
- *   3. Maintain TaintGraph state across scans (for cross-file taint tracking)
- *   4. Collect all findings from detectors
- *   5. Sort findings by threat score (descending) before returning
+ * 1. Walk the project file tree (via FileTreeWalker)
+ * 2. Route each file to the appropriate analyzer based on file type
+ * 3. Maintain TaintGraph state across scans (for cross-file taint tracking)
+ * 4. Collect all findings from detectors
+ * 5. Sort findings by threat score (descending) before returning
  *
  * Flow:
- *   ScanEngine.scan(rootPath)
- *     → FileTreeWalker.walk(fileConsumer)
- *     → For each ParsedFile: route to Analyzer
- *     → Analyzer delegates to Detector(s)
- *     → ScanEngine collects all findings
- *     → Return sorted list
+ * ScanEngine.scan(rootPath)
+ * → FileTreeWalker.walk(fileConsumer)
+ * → For each ParsedFile: route to Analyzer
+ * → Analyzer delegates to Detector(s)
+ * → ScanEngine collects all findings
+ * → Return sorted list
  */
 public final class ScanEngine {
 
@@ -131,4 +131,3 @@ public final class ScanEngine {
         taintGraph.clear();
     }
 }
-

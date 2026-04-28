@@ -18,17 +18,18 @@ import java.util.List;
  * Entry point for the Spring Boot Security Analyzer.
  *
  * Usage:
- *   java -jar spring-security-analyzer.jar /path/to/spring/project [output-report.html]
+ * java -jar spring-security-analyzer.jar /path/to/spring/project
+ * [output-report.html]
  *
  * If no output path is specified, the report will be written to:
- *   ./security-analysis-report-YYYY-MM-DD-HHmmss.html
+ * ./security-analysis-report-YYYY-MM-DD-HHmmss.html
  *
  * The scanner will:
- *   1. Recursively traverse all files in the project root
- *   2. Identify and parse Java, config, and template files
- *   3. Execute all security detectors
- *   4. Generate a professional HTML report sorted by threat score
- *   5. Output the report path to stdout
+ * 1. Recursively traverse all files in the project root
+ * 2. Identify and parse Java, config, and template files
+ * 3. Execute all security detectors
+ * 4. Generate a professional HTML report sorted by threat score
+ * 5. Output the report path to stdout
  */
 public class Main {
 

@@ -17,12 +17,12 @@ import java.util.List;
  * Generates a professional HTML report of security findings.
  *
  * Design:
- *   - Clean, modern UI with Bootstrap-like styling
- *   - Summary statistics (total findings, breakdown by threat level)
- *   - Color-coded findings table (red for CRITICAL, orange for HIGH, etc.)
- *   - Sortable by threat score (descending by default)
- *   - Expandable detail pane for each finding (file, line, suggestion)
- *   - Responsive design for viewing on different screen sizes
+ * - Clean, modern UI with Bootstrap-like styling
+ * - Summary statistics (total findings, breakdown by threat level)
+ * - Color-coded findings table (red for CRITICAL, orange for HIGH, etc.)
+ * - Sortable by threat score (descending by default)
+ * - Expandable detail pane for each finding (file, line, suggestion)
+ * - Responsive design for viewing on different screen sizes
  */
 public final class HtmlReportGenerator implements ReportGenerator {
 
@@ -128,7 +128,7 @@ public final class HtmlReportGenerator implements ReportGenerator {
                         .summary-card.medium h3 { color: #f1c40f; }
                         .summary-card.low { border-left-color: #27ae60; }
                         .summary-card.low h3 { color: #27ae60; }
-                        
+
                         .findings-section h2 {
                             color: #333;
                             margin-bottom: 20px;
@@ -136,13 +136,13 @@ public final class HtmlReportGenerator implements ReportGenerator {
                             border-bottom: 2px solid #667eea;
                             padding-bottom: 10px;
                         }
-                        
+
                         table {
                             width: 100%;
                             border-collapse: collapse;
                             margin-top: 20px;
                         }
-                        
+
                         th {
                             background: #f8f9fa;
                             color: #333;
@@ -151,16 +151,16 @@ public final class HtmlReportGenerator implements ReportGenerator {
                             font-weight: 600;
                             border-bottom: 2px solid #ddd;
                         }
-                        
+
                         td {
                             padding: 15px;
                             border-bottom: 1px solid #eee;
                         }
-                        
+
                         tr:hover {
                             background: #f8f9fa;
                         }
-                        
+
                         .threat-badge {
                             display: inline-block;
                             padding: 6px 12px;
@@ -169,24 +169,24 @@ public final class HtmlReportGenerator implements ReportGenerator {
                             font-size: 0.85em;
                             color: white;
                         }
-                        
+
                         .threat-critical { background: #c0392b; }
                         .threat-high { background: #e67e22; }
                         .threat-medium { background: #f1c40f; color: #333; }
                         .threat-low { background: #27ae60; }
-                        
+
                         .score {
                             font-weight: 600;
                             text-align: center;
                             font-size: 1.1em;
                         }
-                        
+
                         .file-path {
                             font-family: 'Courier New', monospace;
                             font-size: 0.9em;
                             color: #666;
                         }
-                        
+
                         .code-snippet {
                             font-family: 'Courier New', monospace;
                             background: #f5f5f5;
@@ -196,7 +196,7 @@ public final class HtmlReportGenerator implements ReportGenerator {
                             overflow-x: auto;
                             margin: 10px 0;
                         }
-                        
+
                         .suggestion {
                             background: #e3f2fd;
                             border-left: 4px solid #2196f3;
@@ -206,14 +206,14 @@ public final class HtmlReportGenerator implements ReportGenerator {
                             font-size: 0.9em;
                             line-height: 1.6;
                         }
-                        
+
                         .no-findings {
                             text-align: center;
                             padding: 40px;
                             color: #27ae60;
                             font-size: 1.2em;
                         }
-                        
+
                         .footer {
                             background: #f8f9fa;
                             padding: 20px;
@@ -222,19 +222,19 @@ public final class HtmlReportGenerator implements ReportGenerator {
                             font-size: 0.9em;
                             border-top: 1px solid #ddd;
                         }
-                        
+
                         .expandable-row {
                             cursor: pointer;
                         }
-                        
+
                         .details {
                             display: none;
                         }
-                        
+
                         .details.show {
                             display: table-row;
                         }
-                        
+
                         .details td {
                             padding: 20px;
                             background: #fafafa;
@@ -261,7 +261,7 @@ public final class HtmlReportGenerator implements ReportGenerator {
                     <p>Spring Boot Static Code Analysis</p>
                     <p style="margin-top: 10px; font-size: 0.9em;">Generated: %s</p>
                 </div>
-                
+
                 <div class="content">
                     <div class="summary">
                         <div class="summary-card">
@@ -317,35 +317,35 @@ public final class HtmlReportGenerator implements ReportGenerator {
             String typeDisplay = finding.getVulnerabilityType().getDisplayName();
 
             sb.append(String.format("""
-                        <tr class="expandable-row" onclick="toggleDetails(this)">
-                            <td class="score">%d</td>
-                            <td><span class="threat-badge threat-%s">%s</span></td>
-                            <td>%s</td>
-                            <td class="file-path">%s</td>
-                            <td>%d</td>
-                            <td>%s</td>
-                        </tr>
-                        <tr class="details">
-                            <td colspan="6">
-                                <div>
-                                    <strong>Full File Path:</strong>
-                                    <div class="file-path">%s</div>
-                                </div>
-                                <div style="margin-top: 15px;">
-                                    <strong>Description:</strong>
-                                    <p style="margin-top: 5px; line-height: 1.6;">%s</p>
-                                </div>
-                                <div style="margin-top: 15px;">
-                                    <strong>Code Snippet:</strong>
-                                    <div class="code-snippet">%s</div>
-                                </div>
-                                <div style="margin-top: 15px;">
-                                    <strong>Fix Suggestion:</strong>
-                                    <div class="suggestion">%s</div>
-                                </div>
-                            </td>
-                        </tr>
-                """,
+                            <tr class="expandable-row" onclick="toggleDetails(this)">
+                                <td class="score">%d</td>
+                                <td><span class="threat-badge threat-%s">%s</span></td>
+                                <td>%s</td>
+                                <td class="file-path">%s</td>
+                                <td>%d</td>
+                                <td>%s</td>
+                            </tr>
+                            <tr class="details">
+                                <td colspan="6">
+                                    <div>
+                                        <strong>Full File Path:</strong>
+                                        <div class="file-path">%s</div>
+                                    </div>
+                                    <div style="margin-top: 15px;">
+                                        <strong>Description:</strong>
+                                        <p style="margin-top: 5px; line-height: 1.6;">%s</p>
+                                    </div>
+                                    <div style="margin-top: 15px;">
+                                        <strong>Code Snippet:</strong>
+                                        <div class="code-snippet">%s</div>
+                                    </div>
+                                    <div style="margin-top: 15px;">
+                                        <strong>Fix Suggestion:</strong>
+                                        <div class="suggestion">%s</div>
+                                    </div>
+                                </td>
+                            </tr>
+                    """,
                     finding.getThreatScore(),
                     levelClass,
                     finding.getThreatLevel().getLabel(),
@@ -356,8 +356,7 @@ public final class HtmlReportGenerator implements ReportGenerator {
                     escapeHtml(finding.getFilePath().toString()),
                     escapeHtml(finding.getDescription()),
                     escapeHtml(finding.getCodeSnippet()),
-                    escapeHtml(finding.getSuggestion())
-            ));
+                    escapeHtml(finding.getSuggestion())));
         }
 
         sb.append("""
@@ -377,7 +376,7 @@ public final class HtmlReportGenerator implements ReportGenerator {
                         <p>For more information, visit the project repository.</p>
                     </div>
                 </div>
-                
+
                 <script>
                     function toggleDetails(row) {
                         const details = row.nextElementSibling;
@@ -415,7 +414,8 @@ public final class HtmlReportGenerator implements ReportGenerator {
     }
 
     private String escapeHtml(String text) {
-        if (text == null) return "";
+        if (text == null)
+            return "";
         return text.replace("&", "&amp;")
                 .replace("<", "&lt;")
                 .replace(">", "&gt;")

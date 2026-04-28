@@ -17,9 +17,9 @@ public interface ReportGenerator {
     /**
      * Generate a report from the given findings and write it to the specified path.
      *
-     * @param findings      list of vulnerabilities to report
-     * @param outputPath    where to write the report file
-     * @throws IOException  if file writing fails
+     * @param findings   list of vulnerabilities to report
+     * @param outputPath where to write the report file
+     * @throws IOException if file writing fails
      */
     void generate(List<Finding> findings, Path outputPath) throws IOException;
 }

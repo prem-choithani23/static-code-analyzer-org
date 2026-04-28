@@ -12,18 +12,19 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 /**
- * Recursively traverses a project directory tree and routes files to a consumer.
+ * Recursively traverses a project directory tree and routes files to a
+ * consumer.
  *
  * Supports:
- *   - .java files
- *   - application.properties, application-*.properties
- *   - application.yml, application-*.yml
- *   - .html (Thymeleaf templates)
- *   - .jsp files
+ * - .java files
+ * - application.properties, application-*.properties
+ * - application.yml, application-*.yml
+ * - .html (Thymeleaf templates)
+ * - .jsp files
  *
  * Skips:
- *   - target/, .git/, .idea/, node_modules/, build directories
- *   - Binary files, class files, compiled artifacts
+ * - target/, .git/, .idea/, node_modules/, build directories
+ * - Binary files, class files, compiled artifacts
  *
  * Thread-safe via ConcurrentHashMap for visited paths.
  */
@@ -33,16 +34,13 @@ public final class FileTreeWalker {
 
     private static final Set<String> EXCLUDED_DIRS = Set.of(
             "target", ".git", ".idea", ".gradle", "build", "dist", "out",
-            "node_modules", ".mvn", ".vscode", ".DS_Store"
-    );
+            "node_modules", ".mvn", ".vscode", ".DS_Store");
 
     private static final Set<String> INCLUDED_EXTENSIONS = Set.of(
-            ".java", ".properties", ".yml", ".yaml", ".html", ".jsp", ".jspx"
-    );
+            ".java", ".properties", ".yml", ".yaml", ".html", ".jsp", ".jspx");
 
     private static final Set<String> CONFIG_FILE_NAMES = Set.of(
-            "application.properties", "application.yml", "application.yaml"
-    );
+            "application.properties", "application.yml", "application.yaml");
 
     private final Path rootPath;
     private final Set<Path> visitedDirs = ConcurrentHashMap.newKeySet();
@@ -68,7 +66,7 @@ public final class FileTreeWalker {
 
     private void walkRecursive(Path dir, Consumer<ParsedFile> fileConsumer) throws IOException {
         if (visitedDirs.contains(dir)) {
-            return;  // Avoid cycles
+            return; // Avoid cycles
         }
         visitedDirs.add(dir);
 
@@ -111,7 +109,7 @@ public final class FileTreeWalker {
 
     private boolean isConfigFile(String fileName) {
         return CONFIG_FILE_NAMES.contains(fileName) ||
-                (fileName.startsWith("application-") && 
+                (fileName.startsWith("application-") &&
                         (fileName.endsWith(".properties") || fileName.endsWith(".yml") || fileName.endsWith(".yaml")));
     }
 
@@ -140,7 +138,8 @@ public final class FileTreeWalker {
         };
     }
 
-    private com.github.javaparser.ast.CompilationUnit parseJavaSource(Path filePath, List<String> lines) throws IOException {
+    private com.github.javaparser.ast.CompilationUnit parseJavaSource(Path filePath, List<String> lines)
+            throws IOException {
         String source = String.join("\n", lines);
         try {
             return com.github.javaparser.StaticJavaParser.parse(source);
@@ -150,4 +149,3 @@ public final class FileTreeWalker {
         }
     }
 }
-
