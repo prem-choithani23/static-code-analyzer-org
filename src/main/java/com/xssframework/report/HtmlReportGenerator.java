@@ -68,25 +68,25 @@ public final class HtmlReportGenerator implements ReportGenerator {
                             box-sizing: border-box;
                         }
                         body {
-                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                            min-height: 100vh;
-                            padding: 20px;
-                        }
-                        .container {
-                            max-width: 1400px;
-                            margin: 0 auto;
-                            background: white;
-                            border-radius: 8px;
-                            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-                            overflow: hidden;
-                        }
-                        .header {
-                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                            color: white;
-                            padding: 40px;
-                            text-align: center;
-                        }
+                             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                             background: #34582f;
+                             min-height: 100vh;
+                             padding: 20px;
+                         }
+                         .container {
+                             max-width: 1400px;
+                             margin: 0 auto;
+                             background: white;
+                             border-radius: 8px;
+                             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+                             overflow: hidden;
+                         }
+                         .header {
+                             background: #5e7e42;
+                             color: white;
+                             padding: 40px;
+                             text-align: center;
+                         }
                         .header h1 {
                             font-size: 2.5em;
                             margin-bottom: 10px;

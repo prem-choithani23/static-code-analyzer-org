@@ -57,7 +57,6 @@ public class Main {
         logger.info("║  Spring Boot Security Analyzer - Static Code Analysis          ║");
         logger.info("║  Detecting XSS, SQL Injection, Config Issues, & Taint Flows    ║");
         logger.info("╚════════════════════════════════════════════════════════════════╝");
-
         Path projectPath = Paths.get(projectRoot);
         if (!Files.exists(projectPath)) {
             throw new IOException("Project root does not exist: " + projectRoot);

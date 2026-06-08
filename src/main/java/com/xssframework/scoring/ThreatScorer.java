@@ -1,6 +1,5 @@
 package com.xssframework.scoring;
 
-import com.xssframework.model.Finding;
 import com.xssframework.model.VulnerabilityType;
 
 /**
